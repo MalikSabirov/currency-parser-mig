@@ -1,6 +1,7 @@
 package main
 
 import (
+	"currency-parser-mig/internal/parser"
 	"log"
 	"os"
 
@@ -18,6 +19,8 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+
+	parser.ParseCurrencies()
 
 	log.Printf("Server running on port %s", port)
 }
