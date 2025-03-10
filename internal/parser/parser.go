@@ -66,17 +66,7 @@ func ParseCurrencies() {
 		log.Printf("Error parsing date: %v", err)
 	}
 
-	// get UTC+5
-	loc, err := time.LoadLocation("Asia/Almaty")
-	if err != nil {
-		log.Printf("Error loading timezone:  %v", err)
-	}
-
-	if parsedTime, err := time.ParseInLocation(utils.ETALON_DATE, dateStr, loc); err == nil {
-		timestamp = parsedTime
-	} else {
-		log.Printf("Error parsing date: %v", err)
-	}
+	timestamp = utils.ParseOrFallback(dateStr)
 
 	// currency code, buy, sell rate parse
 	currencyBlock.Find("table tr").Each(func(i int, s *goquery.Selection) {

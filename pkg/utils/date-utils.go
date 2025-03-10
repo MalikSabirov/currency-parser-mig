@@ -2,7 +2,9 @@ package utils
 
 import (
 	"fmt"
+	"log"
 	"strings"
+	"time"
 )
 
 func ReplaceRussianMonth(dateStr string) (string, error) {
@@ -43,4 +45,20 @@ func extractMonth(dateStr string) (string, error) {
 	}
 
 	return parts[1], nil
+}
+
+func ParseOrFallback(dateStr string) time.Time {
+	loc, err := time.LoadLocation("Asia/Almaty")
+	if err != nil {
+		log.Printf("failed to load timezone: %v", err)
+		return time.Now().UTC() // Фолбэк
+	}
+
+	if parsedTime, err := time.ParseInLocation(ETALON_DATE, dateStr, loc); err == nil {
+		return parsedTime.UTC()
+	} else {
+		log.Printf("failed to parse date: %v", err)
+	}
+
+	return time.Now().UTC()
 }
