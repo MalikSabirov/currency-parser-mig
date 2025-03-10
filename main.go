@@ -26,6 +26,7 @@ func main() {
 	// init gin router
 	r := gin.Default()
 
+	// endpoints
 	r.GET("/currencies/latest", api.GetLatestExchangeRates(db))
 	r.GET("/currencies/average", api.GetAverageExchangeRates(db))
 
