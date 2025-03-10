@@ -3,6 +3,7 @@ package parser
 import (
 	"currency-parser-mig/pkg/models"
 	"currency-parser-mig/pkg/utils"
+	"database/sql"
 	"log"
 	"net/http"
 	"os"
@@ -13,7 +14,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func ParseCurrencies() {
+func ParseCurrencies(db *sql.DB) {
 	log.Println("Start parsing...")
 
 	migUrl := os.Getenv("MIG_BASE_URL")
@@ -98,5 +99,16 @@ func ParseCurrencies() {
 		})
 	})
 
-	log.Print(currencies)
+	// upload to db
+	for _, currency := range currencies {
+		_, err := db.Exec(
+			"INSERT INTO currencies (currency_code, buy_rate, sell_rate, timestamp) VALUES ($1, $2, $3, $4)",
+			currency.CurrencyCode, currency.BuyRate, currency.SellRate, currency.Timestamp,
+		)
+		if err != nil {
+			log.Printf("Failed to upload currency %s: %v", currency.CurrencyCode, err)
+		}
+	}
+
+	log.Printf("Parsed and saved %d currencies", len(currencies))
 }

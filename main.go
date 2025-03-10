@@ -27,7 +27,7 @@ func main() {
 		port = "8080"
 	}
 
-	parser.ParseCurrencies()
+	parser.ParseCurrencies(db)
 
 	log.Printf("Server running on port %s", port)
 }
