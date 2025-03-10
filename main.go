@@ -1,6 +1,7 @@
 package main
 
 import (
+	"currency-parser-mig/internal/database"
 	"currency-parser-mig/internal/parser"
 	"log"
 	"os"
@@ -13,6 +14,12 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+	// init db
+	db, err := database.InitDB()
+	if err != nil {
+		log.Fatalf("Failed to init db: %v", err)
+	}
+	defer db.Close()
 
 	// Start server
 	port := os.Getenv("SERVER_PORT")
