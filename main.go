@@ -27,6 +27,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/currencies/latest", api.GetLatestExchangeRates(db))
+	r.GET("/currencies/average", api.GetAverageExchangeRates(db))
 
 	// Start server
 	port := os.Getenv("SERVER_PORT")

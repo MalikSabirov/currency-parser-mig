@@ -9,3 +9,9 @@ type Currency struct {
 	SellRate     float64   `json:"sell_rate"`
 	Timestamp    time.Time `json:"timestamp"`
 }
+
+type AverageCurrency struct {
+	CurrencyCode string  `json:"currency_code"`
+	AverageBuy   float64 `json:"average_buy"`
+	AverageSell  float64 `json:"average_sell"`
+}
